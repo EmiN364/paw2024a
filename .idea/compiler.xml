@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="webapp" />
+        <module name="models" />
+        <module name="persistence" />
         <module name="interfaces" />
         <module name="services" />
       </profile>

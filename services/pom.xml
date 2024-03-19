@@ -17,9 +17,19 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
       <groupId>ar.edu.itba.paw</groupId>
       <artifactId>interfaces</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ar.edu.itba.paw</groupId>
+      <artifactId>persistence</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
 
