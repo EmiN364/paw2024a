@@ -1,9 +1,11 @@
 package ar.edu.itba.paw.webapp.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebMvc
@@ -36,18 +40,32 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         viewResolver.setPrefix("/WEB-INF/jsp/");
         viewResolver.setSuffix(".jsp");
 
+        // LocaleContextHolder.getLocale()
         return viewResolver;
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        final ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
+
+        ms.addBasenames("classpath:i18n/messages");
+        ms.setDefaultEncoding(StandardCharsets.UTF_8.name());
+//        ms.setCacheSeconds((int) TimeUnit.MINUTES.toSeconds(5));
+        ms.setCacheSeconds((int) 5);
+
+        return ms;
     }
 
     @Bean
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
         ds.setDriverClass(org.postgresql.Driver.class);
-        // ds.setUrl("jdbc:postgresql://localhost/paw");
-        // ds.setUsername("postgres");
+        /*ds.setUrl("jdbc:postgresql://localhost/postgres");
+        ds.setUsername("postgres");*/
         ds.setUrl("jdbc:postgresql://aws-0-sa-east-1.pooler.supabase.com/postgres");
         ds.setUsername("postgres.ntzhaiwmzzlckeuszsro");
-        ds.setPassword("DBPaw123!!$");
+        ds.setPassword("PawDB123!$$$");
+        ds.setSchema("clases");
         return ds;
     }
 
@@ -66,10 +84,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         initializer.setDatabasePopulator(dsPopulator());
         //  initializer.setDatabaseCleaner(null);
         return initializer;
+
     }
 
-    @Bean
-    protected DatabasePopulator dsPopulator() {
+    private DatabasePopulator dsPopulator() {
         final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
 
         populator.addScript(schemaSql);

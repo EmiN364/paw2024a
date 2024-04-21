@@ -34,7 +34,7 @@ public class UserDaoJdbcTest {
     public void setUp() {
         this.jdbcTemplate = new JdbcTemplate(ds);
 
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users2");
     }
 
     @Test
@@ -47,7 +47,7 @@ public class UserDaoJdbcTest {
         // 3. Postcondiciones
         Assert.assertNotNull(user);
         Assert.assertEquals(USERNAME, user.getUsername());
-        Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+        Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users2"));
     }
 
     @Test
@@ -60,6 +60,6 @@ public class UserDaoJdbcTest {
         // 3. Postcondiciones
         Assert.assertNotNull(user);
         Assert.assertEquals(USERNAME + "2", user.getUsername());
-        Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+        Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users2"));
     }
 }

@@ -30,7 +30,7 @@ public class UserDaoJdbc implements UserDao {
         jdbcTemplate = new JdbcTemplate(ds);
         simpleJdbcInsert = new SimpleJdbcInsert(ds)
                 .usingGeneratedKeyColumns("userid")
-                .withTableName("users");
+                .withTableName("users2");
 
         /* jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS...."); */ // Se movio a schema y se ejecuta en los configs
     }
@@ -56,9 +56,15 @@ public class UserDaoJdbc implements UserDao {
             }
         });*/
 
-        final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?", new Object[] { id } ,ROW_MAPPER);
+        final List<User> list = jdbcTemplate.query("SELECT * FROM users2 WHERE userid = ?", new Object[] { id } ,ROW_MAPPER);
         return list.stream().findFirst();
     }
+
+    public Optional<User> findByUsername(String username) {
+        final List<User> list = jdbcTemplate.query("SELECT * FROM users2 WHERE username = ?", new Object[] { username } ,ROW_MAPPER);
+        return list.stream().findFirst();
+    }
+
 
     @Override
     public User create(final String username) {
