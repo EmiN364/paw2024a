@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 public class UserDaoJdbcTest {
 
     private static final String USERNAME = "My user";
+    private static final String PASSWORD = "password123";
 
     @Autowired
     private UserDaoJdbc userDao;
@@ -42,7 +43,7 @@ public class UserDaoJdbcTest {
         // 1. Precondiciones
 
         // 2. Ejercito la class under test
-        User user = userDao.create(USERNAME);
+        User user = userDao.create(USERNAME, PASSWORD);
 
         // 3. Postcondiciones
         Assert.assertNotNull(user);
@@ -55,7 +56,7 @@ public class UserDaoJdbcTest {
         // 1. Precondiciones
 
         // 2. Ejercito la class under test
-        User user = userDao.create(USERNAME + "2");
+        User user = userDao.create(USERNAME + "2", PASSWORD);
 
         // 3. Postcondiciones
         Assert.assertNotNull(user);

@@ -9,5 +9,5 @@ public interface UserService {
 
     Optional<User> findByUsername(String username);
 
-    User create(String username);
+    User create(String username, String password);
 }

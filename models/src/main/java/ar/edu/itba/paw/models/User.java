@@ -5,9 +5,10 @@ public class User {
     private String username;
     private String password;
 
-    public User(long userId, String username) {
+    public User(long userId, String username, String password) {
         this.userId = userId;
         this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {

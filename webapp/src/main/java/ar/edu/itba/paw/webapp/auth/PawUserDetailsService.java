@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class PawUserDetailsService implements UserDetailsService {
 
-//    @Autowired
+    @Autowired
     private UserService us;
 
     @Override
