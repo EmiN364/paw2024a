@@ -9,5 +9,7 @@ public interface UserDao {
     // Data Access Object
     Optional<User> findById(long id);
 
-    User create(final String username);
+    Optional<User> findByUsername(String username);
+
+    User create(final String username, final String password);
 }

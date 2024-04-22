@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 public class UserDaoJdbcTest {
 
     private static final String USERNAME = "My user";
+    private static final String PASSWORD = "password123";
 
     @Autowired
     private UserDaoJdbc userDao;
@@ -34,7 +35,7 @@ public class UserDaoJdbcTest {
     public void setUp() {
         this.jdbcTemplate = new JdbcTemplate(ds);
 
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "users2");
     }
 
     @Test
@@ -42,12 +43,12 @@ public class UserDaoJdbcTest {
         // 1. Precondiciones
 
         // 2. Ejercito la class under test
-        User user = userDao.create(USERNAME);
+        User user = userDao.create(USERNAME, PASSWORD);
 
         // 3. Postcondiciones
         Assert.assertNotNull(user);
         Assert.assertEquals(USERNAME, user.getUsername());
-        Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+        Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users2"));
     }
 
     @Test
@@ -55,11 +56,11 @@ public class UserDaoJdbcTest {
         // 1. Precondiciones
 
         // 2. Ejercito la class under test
-        User user = userDao.create(USERNAME + "2");
+        User user = userDao.create(USERNAME + "2", PASSWORD);
 
         // 3. Postcondiciones
         Assert.assertNotNull(user);
         Assert.assertEquals(USERNAME + "2", user.getUsername());
-        Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+        Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users2"));
     }
 }

@@ -10,16 +10,19 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
 
-    <spring.version>4.2.5.RELEASE</spring.version>
+    <spring.version>5.3.33</spring.version>
+    <spring-security.version>5.8.11</spring-security.version>
     <servlet-api.version>2.5</servlet-api.version>
     <jslt.version>1.2</jslt.version>
     <postgresql.version>42.2.5</postgresql.version>
     <mockito.version>2.25.1</mockito.version>
     <junit.version>4.13.2</junit.version>
     <hsqldb.version>2.3.1</hsqldb.version>
+    <javax.validation-api.version>2.0.1.Final</javax.validation-api.version>
+    <org.hibernate.validator>6.0.20.Final</org.hibernate.validator>
   </properties>
 
   <dependencyManagement>
@@ -62,6 +65,34 @@
         <artifactId>jstl</artifactId>
         <version>${jslt.version}</version>
       </dependency>
+
+      <dependency>
+          <groupId>javax.validation</groupId>
+          <artifactId>validation-api</artifactId>
+          <version>${javax.validation-api.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-validator</artifactId>
+          <version>${org.hibernate.validator}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>${spring-security.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>

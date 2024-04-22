@@ -17,6 +17,7 @@ public class UserServiceImplTest {
 
     private static final long USER_ID = 1;
     private static final String USERNAME = "My user";
+    private static final String PASSWORD = "password123";
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -47,7 +48,7 @@ public class UserServiceImplTest {
     @Test
     public void testFindByIdExistingUser() {
         // 1. Precondiciones
-        Mockito.when(userDao.findById(Mockito.eq(USER_ID))).thenReturn(Optional.of(new User(USER_ID, USERNAME)));
+        Mockito.when(userDao.findById(Mockito.eq(USER_ID))).thenReturn(Optional.of(new User(USER_ID, USERNAME, PASSWORD)));
 
         // 2. Ejercita la class under test
         Optional<User> maybeUser = userService.findById(USER_ID);
@@ -61,10 +62,10 @@ public class UserServiceImplTest {
     @Test
     public void testCreateUser() {
         // 1. Precondiciones
-        Mockito.when(userDao.create(Mockito.eq(USERNAME))).thenReturn(new User(USER_ID, USERNAME));
+        Mockito.when(userDao.create(Mockito.eq(USERNAME), Mockito.eq(PASSWORD))).thenReturn(new User(USER_ID, USERNAME, PASSWORD));
 
         // 2. Ejercita la class under test
-        User user = userService.create(USERNAME);
+        User user = userService.create(USERNAME, PASSWORD);
 
         // 3. Postcondiciones - assertions
         Assert.assertNotNull(user);
