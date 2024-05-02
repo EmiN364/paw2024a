@@ -62,7 +62,7 @@ public class UserServiceImplTest {
     @Test
     public void testCreateUser() {
         // 1. Precondiciones
-        Mockito.when(userDao.create(Mockito.eq(USERNAME), Mockito.eq(PASSWORD))).thenReturn(new User(USER_ID, USERNAME, PASSWORD));
+        Mockito.when(userDao.create(Mockito.eq(USERNAME), Mockito.anyString())).thenReturn(new User(USER_ID, USERNAME, PASSWORD));
 
         // 2. Ejercita la class under test
         User user = userService.create(USERNAME, PASSWORD);

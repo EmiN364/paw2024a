@@ -43,7 +43,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                 .invalidSessionUrl("/login")
             .and().authorizeHttpRequests()
-                .requestMatchers("/login", "/create").anonymous()
+                .requestMatchers("/login", "/", "/create").anonymous()
                 .requestMatchers("/myprofile").hasAnyRole("USER")
                 .requestMatchers("/post/review").hasAnyRole("EDITOR")
                  // .requestMatchers("/post/edit").access("@AccessHelper.canEdit") SS Expression Language
@@ -61,7 +61,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService)
                 // .rememberMeCookieName()
                 .key("remember-me-key-change-this-in-prod-with-openssl")
-//                .key(FileCopyUtils.copyToString(new InputStreamReader(rememberMeKey.getInputStream())))
+                // .key(FileCopyUtils.copyToString(new InputStreamReader(rememberMeKey.getInputStream())))
                 .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
             .and().logout()
                 .logoutUrl("/logout")

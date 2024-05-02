@@ -2,13 +2,12 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.services.UserService;
-import ar.edu.itba.paw.webapp.auth.PawUserDetails;
 import ar.edu.itba.paw.webapp.exception.UserNotFoundException;
 import ar.edu.itba.paw.webapp.form.UserForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +18,8 @@ import javax.validation.Valid;
 @Controller
 public class HelloWorldController {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(HelloWorldController.class);
+
     // @Autowired otra forma de hacerlo sin constructor. Lo busca solo con reflection
     private final UserService us;
 
@@ -27,15 +28,8 @@ public class HelloWorldController {
         this.us = us;
     }
 
-    @RequestMapping("/")
-    public ModelAndView index() {
-        final PawUserDetails user = (PawUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final long userId = us.findByUsername(user.getUsername()).orElseThrow(UserNotFoundException::new).getUserId();
-        return new ModelAndView("redirect:/" + userId);
-    }
-
     // @RequestMapping(method = RequestMethod.GET, path = "/")
-    @RequestMapping("/create")
+    @RequestMapping("/")
     public ModelAndView registerForm(@ModelAttribute("userform") UserForm form) {
         final ModelAndView mav = new ModelAndView("helloworld/registerForm");
         // No necesito mav.addObject("form", form), lo hace por default el ModelAttribute
@@ -44,13 +38,12 @@ public class HelloWorldController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/create")
     public ModelAndView register(@Valid @ModelAttribute("userform") UserForm form, final BindingResult errors) {
-        // if hasAnyError then showFormAgain + showErros
         if(errors.hasErrors() || !form.getPassword().equals(form.getRepeatPassword())) {
             return registerForm(form);
         }
-        // else
 
         final User user = us.create(form.getUsername(), form.getPassword());
+        LOGGER.atDebug().setMessage("Created the user{}").addArgument(form::getUsername).log();
         return new ModelAndView("redirect:/" + user.getUserId());
     }
 
@@ -84,6 +77,6 @@ public class HelloWorldController {
     @RequestMapping("/403")
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ModelAndView accessDenied() {
-        return new ModelAndView("403");
+        return new ModelAndView("error/403");
     }
 }

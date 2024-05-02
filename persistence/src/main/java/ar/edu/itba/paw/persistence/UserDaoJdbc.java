@@ -69,11 +69,36 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public User create(final String username, final String password) {
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("username", username);
-        userData.put("password", password);
+        // return runAsTransaction(() -> {
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("username", username);
+            userData.put("password", password);
 
-        Number generatedId = simpleJdbcInsert.executeAndReturnKey(userData);
-        return new User(generatedId.longValue(), username, password);
+            Number generatedId = simpleJdbcInsert.executeAndReturnKey(userData);
+            return new User(generatedId.longValue(), username, password);
+        // });
+        // Otra forma, hacer clase inner TxUserDao implements UserDao, definir el runastx, y sobrescribir todas las clases
+        // return runastx(() -> realdao.create(username, password));
     }
+
+    /*private <T> T runAsTransaction(final Supplier<T> sup) {
+        jdbcTemplate.execute("BEGIN TRANSACTION");
+        try {
+            final T result = sup.get();
+            jdbcTemplate.execute("COMMIT");
+            return result;
+        } catch (Exception e) {
+            jdbcTemplate.execute("ROLLBACK");
+            throw e;
+        }
+        try {
+            return sup.get();
+        } catch (Exception e) {
+            jdbcTemplate.execute("ROLLBACK");
+            throw e;
+        } finally {
+            jdbcTemplate.execute("COMMIT");
+        }
+    }*/
+
 }
