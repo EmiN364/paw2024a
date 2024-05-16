@@ -2,7 +2,6 @@ package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.models.User;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,6 +20,7 @@ public class UserServiceImplTest {
 
     @InjectMocks
     private UserServiceImpl userService;
+
     @Mock
     private UserDao userDao;
 
@@ -48,7 +48,7 @@ public class UserServiceImplTest {
     @Test
     public void testFindByIdExistingUser() {
         // 1. Precondiciones
-        Mockito.when(userDao.findById(Mockito.eq(USER_ID))).thenReturn(Optional.of(new User(USER_ID, USERNAME, PASSWORD)));
+        Mockito.when(userDao.findById(Mockito.eq(USER_ID))).thenReturn(Optional.of(new User(USERNAME, PASSWORD)));
 
         // 2. Ejercita la class under test
         Optional<User> maybeUser = userService.findById(USER_ID);
@@ -56,13 +56,13 @@ public class UserServiceImplTest {
         // 3. Postcondiciones - assertions
         Assert.assertNotNull(maybeUser);
         Assert.assertTrue(maybeUser.isPresent());
-        Assert.assertEquals(USER_ID, maybeUser.get().getUserId());
+        Assert.assertEquals(USERNAME, maybeUser.get().getUsername());
     }
 
     @Test
     public void testCreateUser() {
         // 1. Precondiciones
-        Mockito.when(userDao.create(Mockito.eq(USERNAME), Mockito.anyString())).thenReturn(new User(USER_ID, USERNAME, PASSWORD));
+        Mockito.when(userDao.create(Mockito.eq(USERNAME), Mockito.anyString())).thenReturn(new User(USERNAME, PASSWORD));
 
         // 2. Ejercita la class under test
         User user = userService.create(USERNAME, PASSWORD);
