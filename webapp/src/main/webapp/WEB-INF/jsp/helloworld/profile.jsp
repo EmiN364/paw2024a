@@ -10,5 +10,13 @@
 
 <p>El usuario actual es ${currentUser.username}</p>
 
+<h5>Created issues:</h5>
+<dl>
+    <c:forEach var="issue" items="${user.reportedIssues}">
+        <dt><c:out value="${issue.priority}"/></dt>
+        <dd><c:out value="${issue.description}"/></dd>
+    </c:forEach>
+</dl>
+
 </body>
 </html>
