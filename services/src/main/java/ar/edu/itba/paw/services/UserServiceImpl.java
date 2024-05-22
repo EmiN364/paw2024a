@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,12 +48,14 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public void demoJpaBehaviors() {
-        final User user = userDao.findById(1).get();
+        /*final User user = userDao.findById(1).get();
         final User other = userDao.findByUsername(user.getUsername()).get();
 
         user.getReportedIssues().add(new Issue(user, "something is broken and it shouldnt"));
 
-        LOGGER.atDebug().setMessage("Obtained user from different method").log();
+        LOGGER.atDebug().setMessage("Obtained user from different method").log();*/
+
+        final List<User> user = userDao.listAll(2, 1);
     }
 
     /*@Scheduled(cron = "0 0 0 * * *")

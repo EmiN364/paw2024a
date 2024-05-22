@@ -6,8 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Repository
 public class UserDaoJpa implements UserDao {
@@ -35,4 +38,30 @@ public class UserDaoJpa implements UserDao {
                 .setParameter("username", username);
         return query.getResultList().stream().findFirst();
     }
+
+    public List<User> listAll(int page, int pageSize) {
+        // 1 + 1
+        // 1 - SQL -> obtener los ids de los objetos a retornar
+        Query nativeQuery =
+                em.createNativeQuery("SELECT userid FROM users2")
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize);
+
+        @SuppressWarnings("unchecked")
+        List<Long> idList = ((Stream<Integer>) nativeQuery.getResultStream()).map(Integer::longValue).toList();
+
+        // 2 - JPA -> recuperar los objetos a partir de los ids
+        TypedQuery<User> query = em.createQuery("from User where userId IN :ids", User.class);
+        query.setParameter("ids", idList);
+        return query.getResultList();
+    }
+
+    /*private List<User> getFromDB(Query nativeQuery) {
+        @SuppressWarnings("unchecked")
+        List<Long> idList = ((Stream<Integer>) nativeQuery.getResultStream()).map(Integer::longValue).toList();
+
+        TypedQuery<User> query = em.createQuery("from User where userId IN :ids", User.class);
+        query.setParameter("ids", idList);
+        return query.getResultList();
+    }*/
 }
