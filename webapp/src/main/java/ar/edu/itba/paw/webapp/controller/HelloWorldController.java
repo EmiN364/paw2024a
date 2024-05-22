@@ -31,6 +31,7 @@ public class HelloWorldController {
     // @RequestMapping(method = RequestMethod.GET, path = "/")
     @RequestMapping("/")
     public ModelAndView registerForm(@ModelAttribute("userform") UserForm form) {
+        us.demoJpaBehaviors();
         final ModelAndView mav = new ModelAndView("helloworld/registerForm");
         // No necesito mav.addObject("form", form), lo hace por default el ModelAttribute
         return mav;

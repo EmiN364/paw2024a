@@ -19,7 +19,7 @@ public class User {
     private String password;
 
     // Nombre del atributo en la clase Issue
-    @OneToMany(mappedBy = "reporter")
+    @OneToMany(mappedBy = "reporter", cascade = CascadeType.ALL)
     private List<Issue> reportedIssues;
 
     // Es peligroso usar FetchType.EAGER porque es recursivo y puede traer toda la base de datos

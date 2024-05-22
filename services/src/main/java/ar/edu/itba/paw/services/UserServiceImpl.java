@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.services;
 
+import ar.edu.itba.paw.models.Issue;
 import ar.edu.itba.paw.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,17 @@ public class UserServiceImpl implements UserService {
     public User create(String username, String password) {
         LOGGER.atDebug().setMessage("Creating user {}").addArgument(username).log();
         return userDao.create(username, passwordEncoder.encode(password));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public void demoJpaBehaviors() {
+        final User user = userDao.findById(1).get();
+        final User other = userDao.findByUsername(user.getUsername()).get();
+
+        user.getReportedIssues().add(new Issue(user, "something is broken and it shouldnt"));
+
+        LOGGER.atDebug().setMessage("Obtained user from different method").log();
     }
 
     /*@Scheduled(cron = "0 0 0 * * *")
