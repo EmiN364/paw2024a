@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
+    private final static int PAGE_SIZE = 10;
 
     @Autowired
     public UserServiceImpl(UserDao userDao) {
@@ -56,6 +57,10 @@ public class UserServiceImpl implements UserService {
         LOGGER.atDebug().setMessage("Obtained user from different method").log();*/
 
         final List<User> user = userDao.listAll(2, 1);
+    }
+
+    public List<User> listUsers(int page) {
+        return userDao.listAll(page, PAGE_SIZE);
     }
 
     /*@Scheduled(cron = "0 0 0 * * *")
