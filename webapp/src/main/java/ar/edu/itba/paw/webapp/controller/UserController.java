@@ -2,9 +2,10 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.services.UserService;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +28,7 @@ public class UserController {
     public Response listUsers(@QueryParam("page") @DefaultValue("1") final int page) {
         List<User> users = us.listUsers(page);
 
-        return Response.ok(us.listUsers(page))
+        return Response.ok(users)
                 .link(URI.create(""), "prev").link(URI.create(""), "next")
                 .link(URI.create(""), "first").link(URI.create(""), "last")
                 .build();
