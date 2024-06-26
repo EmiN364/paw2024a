@@ -43,7 +43,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                 .invalidSessionUrl("/login")
             .and().authorizeHttpRequests()
-                .requestMatchers("/users").permitAll()
+                .requestMatchers("/users/**").permitAll()
                 .requestMatchers("/login", "/", "/create").anonymous()
                 .requestMatchers("/myprofile").hasAnyRole("USER")
                 .requestMatchers("/post/review").hasAnyRole("EDITOR")
